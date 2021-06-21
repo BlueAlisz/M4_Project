@@ -8,7 +8,7 @@ function searchAnime(event){
     const form = new FormData(this);
     const query = form.get("search");
 
-    fetch(`${base_url}/search/anime?q=${query}&page=1`)
+    fetch(`${base_url}/search/anime?q=${query}`)
     .then(res=>res.json())
     .then(updateDom)
     .catch(err=>console.warn(err.message));
@@ -17,44 +17,21 @@ function searchAnime(event){
 function updateDom(data){
 
     const searchResults = document.getElementById('search-results');
+    console.log(data.results);
 
-    const animeByCategories = data.results
-        .reduce((acc, anime)=>{
-
-            const {type} = anime;
-            if(acc[type] === undefined) acc[type] = [];
-            acc[type].push(anime);
-            return acc;
-
-        }, {});
-
-        searchResults.innerHTML = Object.keys(animeByCategories).map(key=>{
-
-            const animesHTML = animeByCategories[key]
-            .sort((a,b)=>a.episodes-b.episodes)
-            .map(anime=>{
-                return `
-                    <div class="card">
-                        <div class="card-image">
-                            <img src="${anime.image_url}">
-                        </div>
-                        <div class="card-content">
-                            <span class="card-title">${anime.title}</span>
-                            <p>${anime.synopsis}</p>
-                        </div>
-                        <div class="card-action">
-                            <a href="${anime.url}">Find out more</a>
-                        </div>
-                    </div>
-                `
-            }).join("");
-
-
+        searchResults.innerHTML = data.results.map(anime=>{
             return `
-                <section>
-                    <h3>${key.toUpperCase()}</h3>
-                    <div class="kemicofa-row">${animesHTML}</div>
-                </section>
+        <div class="product">
+            <div class="pro">
+                <div class="content">
+                <img width="320" height="400"  src="${anime.image_url}">
+                    <div infoPro>
+                    <p>${anime.title}</p>
+                    <a href="${anime.url}"><input type="button" value="FIND OUT" class="button" name="product1"></a>
+        </div>
+        </div>
+        </div>
+        </div>
             `
         }).join("");
 }
