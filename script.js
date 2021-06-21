@@ -23,8 +23,8 @@ function updateDom(data){
             return `
         <div class="product">
             <div class="pro">
-                <div class="content">
-                <img width="320" height="400"  src="${anime.image_url}">
+                <div class="content" >
+                <img width="320" height="400"  src="${anime.image_url}"ondblclick="addFav()">
                     <div infoPro>
                     <p>${anime.title}</p>
                     <a href="${anime.url}"><input type="button" value="FIND OUT" class="button" name="product1"></a>
@@ -36,6 +36,15 @@ function updateDom(data){
         }).join("");
 }
 
+function addFav(){
+    
+  if (confirm("Add to Favorite list?")) {
+    
+  } else {
+    
+  }
+}
+
 function pageLoaded(){
     const form = document.getElementById('search_form');
     form.addEventListener("submit", searchAnime);
@@ -43,3 +52,16 @@ function pageLoaded(){
 
 
 window.addEventListener("load", pageLoaded);
+
+var searchResults = document.getElementById('search-results')
+
+function hideAll(){
+    searchResults.style.display = 'none'
+}
+
+document.getElementById('fav').addEventListener('click', (event) => {
+    hideAll()
+})
+document.getElementById('find').addEventListener('click', (event) => {
+    searchResults.style.display = 'block'
+})
