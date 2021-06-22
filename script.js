@@ -1,5 +1,6 @@
 const base_url = "https://api.jikan.moe/v3";
 const movieList = document.querySelector('.movie-list');
+const searchList = document.querySelector('.searchList');
 
 function searchAnime(event){
 
@@ -16,24 +17,36 @@ function searchAnime(event){
 
 function updateDom(data){
 
-    const searchResults = document.getElementById('search-results');
+    
     console.log(data.results);
 
-        searchResults.innerHTML = data.results.map(anime=>{
-            return `
-        <div class="product">
-            <div class="pro">
-                <div class="content" >
-                <img width="320" height="400"  src="${anime.image_url}"ondblclick="addFav()">
-                    <div infoPro>
-                    <p>${anime.title}</p>
-                    <a href="${anime.url}"><input type="button" value="FIND OUT" class="button" name="product1"></a>
-        </div>
-        </div>
-        </div>
-        </div>
-            `
-        }).join("");
+    data.results.forEach((movie) =>{
+      const pro = document.createElement('div');
+    pro.classList.add('pro');
+
+    const content = document.createElement('div');
+    content.classList.add('content');
+
+    const avatarImg = document.createElement('img');
+    avatarImg.classList.add('image_url');
+    avatarImg.src = movie.image_url;
+    pro.addEventListener('dblclick',function(){
+      let confirmAdd = confirm(`Do youwant to add "${movie.title}" to your list?`)
+      if(comfirmAdd){
+        addSearchToDB(movie)
+      }
+    })
+
+    const infoPro = document.createElement('div');
+    infoPro.classList.add('infoPro');
+
+    const fullnameText = document.createElement('p');
+    fullnameText.classList.add('username');
+    fullnameText.innerHTML = movie.title;
+
+    pro.append(avatarImg, fullnameText);
+    searchList.append(pro);
+    })
 }
 
 
@@ -108,10 +121,31 @@ function deleteStudent (id) {
 function addFav(){
     
   if (confirm("Add to Favorite list?")) {
-    
+    addMovieToDB(anime)
   } else {
     
   }
+}
+
+function addMovieToDB(movies){
+  let body=`{"url":"${movies.url}","image_url":"${movies.image_url}","title":"${movies.title}","synopsis":"${movies.synopsis}","type":"${movies.type}","episodes":"${movies.episodes}","score":"${movies.score}","rated":"${movies.rated}","id":"${id}"}`
+  fetch(`https://se104-project-backend.du.r.appspot.com/movies`,{
+    method:'POST',
+    headers: {
+        'Content-Type': 'application/json'
+    },
+    body: `{"id":"632110337","movie":${body}}`
+  }).then(response=>{
+    if(response.status == 200){
+      return response.json()
+    }else{
+      throw Error(response.statusText)
+    }
+  }).then(movie=>{
+    alert('Success')
+  }).catch(error=>{
+    alert('Error')
+  })
 }
 
 function pageLoaded(){
@@ -140,3 +174,8 @@ document.getElementById('find').addEventListener('click', (event) => {
   hideAll()
   searchResults.style.display = 'block'
 })
+
+document.getElementById('add').addEventListener('dblclick',function(){
+  let confirmAdd = confirm(`Do you want`)
+})
+
