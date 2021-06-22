@@ -96,12 +96,12 @@ function deleteStudent (id) {
           return response.json() 
       }else{
            throw Error(response.statusText) }
-  }).then(data =>
+  }).then(user =>
           { alert(`movie name ${user.title} is now deleted`) 
-          
+          location.reload();
   }).catch( error => 
-          { alert('your input student id is not in the database') 
-          listAnime()
+          { alert(`movie name ${user.title} is't deleted`) 
+          
   })
 }
 
