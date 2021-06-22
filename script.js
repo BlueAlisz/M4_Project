@@ -31,9 +31,9 @@ function updateDom(data){
     avatarImg.classList.add('image_url');
     avatarImg.src = movie.image_url;
     pro.addEventListener('dblclick',function(){
-      let confirmAdd = confirm(`Do youwant to add "${movie.title}" to your list?`)
+      let comfirmAdd = confirm(`Do youwant to add "${movie.title}" to your list?`)
       if(comfirmAdd){
-        addSearchToDB(movie)
+        addMovieToDB(movie)
       }
     })
 
@@ -118,17 +118,10 @@ function deleteStudent (id) {
   })
 }
 
-function addFav(){
-    
-  if (confirm("Add to Favorite list?")) {
-    addMovieToDB(anime)
-  } else {
-    
-  }
-}
 
-function addMovieToDB(movies){
-  let body=`{"url":"${movies.url}","image_url":"${movies.image_url}","title":"${movies.title}","synopsis":"${movies.synopsis}","type":"${movies.type}","episodes":"${movies.episodes}","score":"${movies.score}","rated":"${movies.rated}","id":"${id}"}`
+
+function addMovieToDB(movie){
+  let body=`{"url":"${movie.url}","image_url":"${movie.image_url}","title":"${movie.title}","synopsis":"${movie.synopsis}","type":"${movie.type}","episodes":"${movie.episodes}","score":"${movie.score}","rated":"${movie.rated}","id":" "}`
   fetch(`https://se104-project-backend.du.r.appspot.com/movies`,{
     method:'POST',
     headers: {
@@ -141,7 +134,7 @@ function addMovieToDB(movies){
     }else{
       throw Error(response.statusText)
     }
-  }).then(movie=>{
+  }).then(data=>{
     alert('Success')
   }).catch(error=>{
     alert('Error')
@@ -175,7 +168,5 @@ document.getElementById('find').addEventListener('click', (event) => {
   searchResults.style.display = 'block'
 })
 
-document.getElementById('add').addEventListener('dblclick',function(){
-  let confirmAdd = confirm(`Do you want`)
-})
+
 
