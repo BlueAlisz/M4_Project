@@ -1,5 +1,5 @@
 const base_url = "https://api.jikan.moe/v3";
-const userList = document.querySelector('.user-list');
+const movieList = document.querySelector('.movie-list');
 
 function searchAnime(event){
 
@@ -43,8 +43,8 @@ fetch('https://se104-project-backend.du.r.appspot.com/movies/632110337')
   return response.json();
 })
 .then((json) => {
-  const users = json;
-  users.forEach((user) => {
+  const movies = json;
+  movies.forEach((movie) => {
       
     const pro = document.createElement('div');
     pro.classList.add('pro');
@@ -54,18 +54,18 @@ fetch('https://se104-project-backend.du.r.appspot.com/movies/632110337')
 
     const avatarImg = document.createElement('img');
     avatarImg.classList.add('image_url');
-    avatarImg.src = user.image_url;
+    avatarImg.src = movie.image_url;
 
     const infoPro = document.createElement('div');
     infoPro.classList.add('infoPro');
 
     const fullnameText = document.createElement('p');
     fullnameText.classList.add('username');
-    fullnameText.innerHTML = user.title;
+    fullnameText.innerHTML = movie.title;
 
     const idText = document.createElement('p');
     idText.classList.add('username');
-    idText.innerHTML = user.id;
+    idText.innerHTML = movie.id;
 
     let button = document.createElement('button')
     button.classList.add('btn')
@@ -73,14 +73,14 @@ fetch('https://se104-project-backend.du.r.appspot.com/movies/632110337')
     button.setAttribute('type','button')
     button.innerText = 'delete'
     button.addEventListener('click',function() {
-      let confirms = confirm(`ท่านต้องการลบเรื่อง ${user.title} หรือไม่`)
+      let confirms = confirm(`ท่านต้องการลบเรื่อง ${movie.title} หรือไม่`)
       if (confirms){
-      deleteStudent(user.id)
+      deleteStudent(movie.id)
       }
   })
 
     pro.append(avatarImg, fullnameText,idText,button);
-    userList.append(pro);
+    movieList.append(pro);
   });
 })
 .catch((error) => {
@@ -96,11 +96,11 @@ function deleteStudent (id) {
           return response.json() 
       }else{
            throw Error(response.statusText) }
-  }).then(user =>
-          { alert(`movie name ${user.title} is now deleted`) 
+  }).then(movie =>
+          { alert(`movie name ${movie.title} is now deleted`) 
           location.reload();
   }).catch( error => 
-          { alert(`movie name ${user.title} is't deleted`) 
+          { alert(`movie name ${movie.title} is't deleted`) 
           
   })
 }
@@ -123,17 +123,17 @@ function pageLoaded(){
 window.addEventListener("load", pageLoaded);
 
 var searchResults = document.getElementById('search-results')
-var userLists = document.getElementById('userlists')
+var movieLists = document.getElementById('movielists')
 
 function hideAll(){
     searchResults.style.display = 'none'
-    userLists.style.display='none'
+    movieLists.style.display='none'
 }
 
 document.getElementById('fav').addEventListener('click', (event) => {
     
     listAnime()
-    userLists.style.display = 'block'
+    movieLists.style.display = 'block'
     
 })
 document.getElementById('find').addEventListener('click', (event) => {
