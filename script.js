@@ -1,5 +1,5 @@
 const base_url = "https://api.jikan.moe/v3";
-
+const userList = document.querySelector('.user-list');
 
 function searchAnime(event){
 
@@ -36,6 +36,44 @@ function updateDom(data){
         }).join("");
 }
 
+//function listAnime(event){
+
+fetch('https://api.jikan.moe/v3/search/anime?q=naruto')
+.then((response) => {
+  return response.json();
+})
+.then((json) => {
+  const users = json.results;
+  users.forEach((user) => {
+      
+    const pro = document.createElement('div');
+    pro.classList.add('pro');
+
+    const content = document.createElement('div');
+    content.classList.add('content');
+
+    const avatarImg = document.createElement('img');
+    avatarImg.classList.add('image_url');
+    avatarImg.src = user.image_url;
+
+    const infoPro = document.createElement('div');
+    infoPro.classList.add('infoPro');
+
+    const fullnameText = document.createElement('p');
+    fullnameText.classList.add('username');
+    fullnameText.innerHTML = user.title;
+    
+
+    pro.append(avatarImg, fullnameText,);
+    userList.append(pro);
+  });
+})
+.catch((error) => {
+  console.log(error.message);
+});
+//}
+
+
 function addFav(){
     
   if (confirm("Add to Favorite list?")) {
@@ -54,14 +92,20 @@ function pageLoaded(){
 window.addEventListener("load", pageLoaded);
 
 var searchResults = document.getElementById('search-results')
+var userLists = document.getElementById('userlists')
 
 function hideAll(){
     searchResults.style.display = 'none'
+    userLists.style.display='none'
 }
 
 document.getElementById('fav').addEventListener('click', (event) => {
-    hideAll()
+    
+    listAnime()
+    userLists.style.display = 'block'
+    
 })
 document.getElementById('find').addEventListener('click', (event) => {
-    searchResults.style.display = 'block'
+  hideAll()
+  searchResults.style.display = 'block'
 })

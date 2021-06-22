@@ -46,7 +46,11 @@
       color: white;
   }
 
-  .content{
+  .pro{
     height: 550px;
     width: 320px;
   }
+  img{
+    width: 320px;
+    height: 400px;
+}
