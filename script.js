@@ -36,14 +36,14 @@ function updateDom(data){
         }).join("");
 }
 
-//function listAnime(event){
 
-fetch('https://api.jikan.moe/v3/search/anime?q=naruto')
+
+fetch('https://se104-project-backend.du.r.appspot.com/movies/632110337')
 .then((response) => {
   return response.json();
 })
 .then((json) => {
-  const users = json.results;
+  const users = json;
   users.forEach((user) => {
       
     const pro = document.createElement('div');
@@ -62,17 +62,48 @@ fetch('https://api.jikan.moe/v3/search/anime?q=naruto')
     const fullnameText = document.createElement('p');
     fullnameText.classList.add('username');
     fullnameText.innerHTML = user.title;
-    
 
-    pro.append(avatarImg, fullnameText,);
+    const idText = document.createElement('p');
+    idText.classList.add('username');
+    idText.innerHTML = user.id;
+
+    let button = document.createElement('button')
+    button.classList.add('btn')
+    button.classList.add('btn-danger')
+    button.setAttribute('type','button')
+    button.innerText = 'delete'
+    button.addEventListener('click',function() {
+      let confirms = confirm(`ท่านต้องการลบเรื่อง ${user.title} หรือไม่`)
+      if (confirms){
+      deleteStudent(user.id)
+      }
+  })
+
+    pro.append(avatarImg, fullnameText,idText,button);
     userList.append(pro);
   });
 })
 .catch((error) => {
   console.log(error.message);
 });
-//}
 
+function deleteStudent (id) { 
+  fetch( `https://se104-project-backend.du.r.appspot.com/movie?id=632110337&&movieId=${id}`,{
+       method: 'DELETE' 
+  }).then(response => { 
+      if (response.status === 200)
+      { 
+          return response.json() 
+      }else{
+           throw Error(response.statusText) }
+  }).then(data =>
+          { alert(`movie name ${user.title} is now deleted`) 
+          
+  }).catch( error => 
+          { alert('your input student id is not in the database') 
+          listAnime()
+  })
+}
 
 function addFav(){
     
