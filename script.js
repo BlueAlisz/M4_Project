@@ -173,9 +173,9 @@ function showDes(movieID){
     favTable.innerHTML = " "
 
     const card = document.createElement('div');
-    card.classList.add('card','text-white','bg-dark','mx-auto');
+    card.classList.add('card','text-white','bg-dark','mx-auto','my-3');
     card.style.padding = '5px'
-    card.style.height = '800px'
+    card.style.height = '820px'
     card.style.width = '550px'
 
     const cardImgTop = document.createElement('img');
